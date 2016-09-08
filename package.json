@@ -15,7 +15,9 @@
     "properties-parser": "^0.3.1",
     "stats-analysis": "^2.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "to-csv": "^0.1.1"
+  },
   "scripts": {
     "test": "node index.js | pino"
   },
