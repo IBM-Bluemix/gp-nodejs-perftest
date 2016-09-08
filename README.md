@@ -11,14 +11,14 @@ create `gp-config.json` as such:
 ```json
 {
     "credentials": {
-      // the usual…
-      "server.env": // path to a WAS 'server.env' file (optional)
-      "src":  // path to the server source code (optional)
+      "//": "(the usual GP creds)",
+      "server.env": "path to a WAS 'server.env' file (optional)",
+      "src":  "path to the server source code (optional)"
     },
     "cloudant": {
-        "account": // (or URL)
-        "db": // DB name
-        "key": // (if needed)
+        "account": "or URL",
+        "db": "db-name",
+        "key": "(optional)",
         "password": "hunter42"
     }
 }
