@@ -45,15 +45,6 @@ process.on('unhandledRejection', (reason) => {
     pino.error({unhandledRejection: reason});
 });
 
-const serverVersionUrl = url.resolve(config.credentials.url, './version');
-
-const serverVersionObj = 
-Promise.resolve(serverVersionUrl)
-.then(u => { pino.debug({fetching: u}); return u })
-.then(request)
-.then(resp => { pino.debug(resp); return resp; })
-.then(resp => JSON.parse(resp));
-
 // promise for git head
 const commitInfo = new Promise( (resolve, reject) => {
         if(config.credentials.src) {
@@ -61,6 +52,15 @@ const commitInfo = new Promise( (resolve, reject) => {
             pino.debug('Git info: '+ config.credentials.src);
             return resolve(gitHead(config.credentials.src+'/.git'));
         } else {
+            const serverVersionUrl = url.resolve(config.credentials.url, './version');
+
+            const serverVersionObj = 
+            Promise.resolve(serverVersionUrl)
+            .then(u => { pino.debug({fetching: u}); return u })
+            .then(request)
+            .then(resp => { pino.debug(resp); return resp; })
+            .then(resp => JSON.parse(resp));
+
             // fetch git hash
             return serverVersionObj
             .then(o => o.components['gaas-translate'].source)
