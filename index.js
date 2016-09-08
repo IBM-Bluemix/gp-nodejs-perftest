@@ -349,11 +349,11 @@ promtie.settle([gp, bundle])
 .then(doTestRunStats(writeData))
 .then(writeResults)
 
-// .then(() => Promise.resolve({ BUNDLE_MED, count: COUNT_SHORT }))
+// .then(() => Promise.resolve({ size: BUNDLE_MED, count: COUNT_SHORT }))
 // .then(doTestRunStats(readString))
 // .then(writeResults)
 
-.then(() => Promise.resolve({ BUNDLE_MED, count: COUNT_SHORT }))
+.then(() => Promise.resolve({ size: BUNDLE_MED, count: COUNT_SHORT }))
 .then(doTestRunStats(getStrings))
 .then(writeResults)
 
