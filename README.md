@@ -3,10 +3,32 @@ Globalization Pipeline Nodejs Perf Test
 
 Perf tests G11n Pipeline. Saves results to Cloudant.
 
+Config
+------
+
+create `gp-config.json` as such:
+
+```json
+{
+    "credentials": {
+      // the usual…
+      "server.env": // path to a WAS 'server.env' file (optional)
+      "src":  // path to the server source code (optional)
+    },
+    "cloudant": {
+        "account": // (or URL)
+        "db": // DB name
+        "key": // (if needed)
+        "password": "hunter42"
+    }
+}
+```
+
 Usage
 -----
 
-TBD
+    npm i
+    npm run test
 
 Contributing
 ------------
