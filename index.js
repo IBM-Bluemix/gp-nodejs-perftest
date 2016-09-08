@@ -30,6 +30,7 @@ const statsAnalysis = require('stats-analysis');
 const url = require('url');
 const hrtimeMili = require('hrtime-mili');
 const fsRaw = require('fs');
+const request = require('request-promise-native');
 const fs = {
     readFile: promtie.promisify(fsRaw.readFile)
 };
@@ -44,21 +45,28 @@ process.on('unhandledRejection', (reason) => {
     pino.error({unhandledRejection: reason});
 });
 
+const serverVersionUrl = url.resolve(config.credentials.url, './version');
+
+const serverVersionObj = 
+Promise.resolve(serverVersionUrl)
+.then(u => { pino.debug({fetching: u}); return u })
+.then(request)
+.then(resp => { pino.debug(resp); return resp; })
+.then(resp => JSON.parse(resp));
 
 // promise for git head
 const commitInfo = new Promise( (resolve, reject) => {
         if(config.credentials.src) {
+            // fetch from local dir
             pino.debug('Git info: '+ config.credentials.src);
             return resolve(gitHead(config.credentials.src+'/.git'));
         } else {
-            return resolve(undefined);
+            // fetch git hash
+            return serverVersionObj
+            .then(o => o.components['gaas-translate'].source)
+            .then(hash => resolve(hash));
         }
-})
-.then(commit => {
-    if(commit) return commit;
-    throw new Error('missing config.credentials.src - TODO, fetch from /version');
 });
-
 
 const serverConfig =
     Promise.resolve(config.credentials["server.env"])
@@ -71,7 +79,11 @@ const serverConfig =
                     );
                 });
             } else {
-                return Promise.resolve({}); // empty settings
+                // more stuff from serverVersionObj if needed.
+                return Promise.resolve({
+                    CLOUDANT_ACCOUNT: '(something)',
+                    STORE_PROVIDER: 'cloudant'
+                }); // empty settings
             }
         });
 
@@ -127,8 +139,7 @@ const gp = Promise.resolve({credentials: config.credentials})
                     err => { return adminCall(client, 'createServiceInstance', newInstanceData); })
             .then(x => {  return Promise.resolve(client); });
         } else {
-            // non admin- you’re good.
-            pino.info('BBB');
+            // normal- you’re all set.
             return Promise.resolve(client);
         }
     })
@@ -297,7 +308,7 @@ const doTestRunStats = (testFn) => {
 const writeResults = (results) => {
     pino.debug({results: results});
     pino.info({params: results.params, test: results.name, ms: results.median, "±": results.stDev});
-    process.nextTick(() => {
+    if(!configCloudant.cloudant.disabled) process.nextTick(() => {
         info.then(info => {
             db.insert({info: info, results: results, date: new Date().toUTCString() }, (err, body, header) => {
                 if(err) return pino.error(err);

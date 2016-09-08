@@ -13,6 +13,8 @@
     "pino": "^2.9.0",
     "promtie": "^0.5.0",
     "properties-parser": "^0.3.1",
+    "request": "^2.74.0",
+    "request-promise-native": "^1.0.3",
     "stats-analysis": "^2.0.0"
   },
   "devDependencies": {
