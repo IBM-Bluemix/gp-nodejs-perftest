@@ -53,7 +53,7 @@ db.list({include_docs: true})
      sd: row.doc.results.stDev
 };}))
 .then(rows => {
-    pino.info(JSON.stringify(rows));
+    pino.debug(JSON.stringify(rows));
     return rows;
 })
 .then(rows => (require('to-csv'))(rows))
