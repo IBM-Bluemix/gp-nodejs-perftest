@@ -6,7 +6,9 @@ Perf tests G11n Pipeline. Saves results to Cloudant.
 Config
 ------
 
-create `gp-config.json` as such:
+* WARNING: this test deletes ALL bundles from the GP instance.
+
+Create `gp-config.json` as such:
 
 ```json
 {
@@ -14,14 +16,18 @@ create `gp-config.json` as such:
       "//": "(the usual GP creds)",
       "server.env": "path to a WAS 'server.env' file (optional)",
       "src":  "path to the server source code (optional)"
-    },
+    }
+}
+```
+
+and `gp-config-cloudant.json`:
+```json
     "cloudant": {
         "account": "or URL",
         "db": "db-name",
         "key": "(optional)",
         "password": "hunter42"
     }
-}
 ```
 
 Usage

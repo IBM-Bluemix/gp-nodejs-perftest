@@ -17,8 +17,8 @@
 // gp-config.json is required.
 const process= require('process');
 const argv = require('minimist')(process.argv.slice(2));
-const configFile = argv.config || './gp-config.json';
-const config = require(configFile);
+const configCloudantFile = argv.configCloudant || './gp-config-cloudant.json';
+const config = require(configCloudantFile);
 const Cloudant = require('cloudant');
 const GP = require('g11n-pipeline');
 const pino = require('pino')({name: 'dumpCsv'});

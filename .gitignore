@@ -1,4 +1,4 @@
-gp-config.json
+gp-config*.json
 node_modules
 .vscode
 dump.csv

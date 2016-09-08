@@ -19,6 +19,8 @@ const process= require('process');
 const argv = require('minimist')(process.argv.slice(2));
 const configFile = argv.config || './gp-config.json';
 const config = require(configFile);
+const configCloudantFile = argv.configCloudant || './gp-config-cloudant.json';
+const configCloudant = require(configCloudantFile);
 const Cloudant = require('cloudant');
 const GP = require('g11n-pipeline');
 const pino = require('pino')();
@@ -34,8 +36,8 @@ const fs = {
 const gitHead = promtie.promisify(require('git-head'));
 
 const testData = require('./testData');
-const cloudant = new Cloudant(config.cloudant, (err) => { if(err) pino.error(err); });
-const db = cloudant.db.use(config.cloudant.db);
+const cloudant = new Cloudant(configCloudant.cloudant, (err) => { if(err) pino.error(err); });
+const db = cloudant.db.use(configCloudant.cloudant.db);
 
 
 process.on('unhandledRejection', (reason) => {
