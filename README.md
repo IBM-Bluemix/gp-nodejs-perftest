@@ -22,14 +22,25 @@ Create `gp-config.json` as such:
 
 and `gp-config-cloudant.json`:
 ```json
+{
     "cloudant": {
         "account": "or URL",
         "db": "db-name",
         "key": "(optional)",
         "password": "hunter42"
     }
+}
 ```
 
+you can also set the following to NOT log the results:
+and `gp-config-cloudant.json`:
+```json
+{
+    "cloudant": {
+        "disabled": true
+    }
+}
+```
 Usage
 -----
 
